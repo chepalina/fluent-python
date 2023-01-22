@@ -15,6 +15,7 @@ open("cafe.txt", "w", encoding="utf_8").write('café')
 open("cafe.txt").read()
 
 # ----- support
+from audioop import avg
 import os
 os.remove("cafe.txt")
 
@@ -50,3 +51,21 @@ print(inspect.getmembers(list_split, inspect.isfunction))
 from dis import dis
 
 dis(func)
+
+
+# Инспекция переменных. Глава 7. Пример 7.11.
+
+def make_averager():
+    series = []
+
+    def averager(new_value):
+        series.append(new_value)
+        total = sum(series)
+        return total/len(series)
+
+    return averager
+
+
+avg = make_averager()
+print(avg.__code__.co_varnames)
+print(avg.__code__.co_freevars)
